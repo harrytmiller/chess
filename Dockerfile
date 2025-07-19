@@ -10,4 +10,5 @@ RUN mvn clean package -DskipTests
 
 EXPOSE 8080
 
+# Fixed to use the correct JAR name
 CMD ["java", "-jar", "target/chess-backend-0.0.1-SNAPSHOT.jar"]
