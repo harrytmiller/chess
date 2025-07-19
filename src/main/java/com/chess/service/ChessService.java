@@ -248,7 +248,7 @@ public class ChessService {
         return tempGame;
     }
     
-    // Validate move without checking for check (to avoid recursion)
+    // Validate move
     private boolean isValidMoveWithoutCheckValidation(Game game, int fromRow, int fromCol, int toRow, int toCol) {
         if (fromRow < 0 || fromRow > 7 || fromCol < 0 || fromCol > 7 ||
             toRow < 0 || toRow > 7 || toCol < 0 || toCol > 7) {
@@ -282,7 +282,6 @@ public class ChessService {
             return false;
         }
         
-        // Check if this move would put own king in check
         Game tempGame = simulateMove(game, fromRow, fromCol, toRow, toCol);
         return !isKingInCheck(tempGame, piece.getColor());
     }
@@ -320,7 +319,6 @@ public class ChessService {
             if (rowDiff == direction && getPieceAt(game, toRow, toCol) == null) {
                 return true;
             }
-            // FIXED: Double move from starting position - must check both squares are empty
             if (!pawn.isHasMoved() && rowDiff == 2 * direction && 
                 getPieceAt(game, toRow, toCol) == null && 
                 getPieceAt(game, fromRow + direction, fromCol) == null) {
@@ -361,7 +359,7 @@ public class ChessService {
                 .orElse(null);
     }
     
-    // Helper class for AI moves (should be in ChessAI but needed here for validation)
+    // Helper class for AI moves 
     public static class AIMove {
         public int fromRow, fromCol, toRow, toCol;
         public int score;
