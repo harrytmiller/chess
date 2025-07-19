@@ -6,15 +6,14 @@ Quick Start
 - Docker and Docker Compose
 
 ### Run the Application
-bash```
+```bash
 git clone https://github.com/harrytmiller/chess.git
 cd chess
 docker-compose up --build
 ```
 Access the game: http://localhost:3000
 
-
-#### Stop the Application
-bash```
+# Stop the Application
+```bash
 docker-compose down
 ```
