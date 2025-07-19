@@ -1,0 +1,77 @@
+type Query {
+    getGame(gameId: ID!): Game
+    getGamePieces(gameId: ID!): [Piece!]!
+    checkMoveValidity(gameId: ID!, fromRow: Int!, fromCol: Int!, toRow: Int!, toCol: Int!): Boolean!
+    isAITurn(gameId: ID!): Boolean!
+}
+
+type Mutation {
+    createGame(gameType: String, aiDifficulty: String): Game!
+    makeMove(gameId: ID!, fromRow: Int!, fromCol: Int!, toRow: Int!, toCol: Int!): Move!
+}
+
+type Game {
+    id: ID!
+    status: GameStatus!
+    currentPlayer: Color!
+    winner: Color
+    moveCount: Int!
+    pieces: [Piece!]!
+    moves: [Move!]!
+    gameType: GameType!
+    aiDifficulty: AIDifficulty
+    aiColor: Color
+}
+
+type Piece {
+    id: ID
+    type: PieceType!
+    color: Color!
+    row: Int!
+    col: Int!
+    hasMoved: Boolean!
+}
+
+type Move {
+    id: ID
+    fromRow: Int!
+    fromCol: Int!
+    toRow: Int!
+    toCol: Int!
+    pieceType: PieceType!
+    pieceColor: Color!
+    moveNumber: Int!
+}
+
+enum GameStatus {
+    ACTIVE
+    CHECKMATE
+    STALEMATE
+    DRAW
+    RESIGNED
+}
+
+enum GameType {
+    HUMAN_VS_HUMAN
+    HUMAN_VS_AI
+}
+
+enum AIDifficulty {
+    NORMAL
+    HARD
+    IMPOSSIBLE
+}
+
+enum Color {
+    WHITE
+    BLACK
+}
+
+enum PieceType {
+    KING
+    QUEEN
+    ROOK
+    BISHOP
+    KNIGHT
+    PAWN
+}
