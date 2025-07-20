@@ -408,17 +408,23 @@ const ChessBoard = ({ game, gameId, onMoveComplete }) => {
     return validMoves.some(move => move.row === row && move.col === col);
   };
 
-  const getCurrentPlayerDisplay = () => {
-    if (game?.gameType === 'HUMAN_VS_AI') {
-      if (game.currentPlayer === 'WHITE') {
-        return 'Your turn';
-      } else {
-        return isAIThinking ? 'AI is thinking...' : 'AI\'s turn';
-      }
+const getCurrentPlayerDisplay = () => {
+  if (game?.gameType === 'HUMAN_VS_AI') {
+    if (game.currentPlayer === 'WHITE') {
+      return 'Your turn';
     } else {
-      return `${game?.currentPlayer}'s turn`;
+      const difficultyMap = {
+        NORMAL: 'Easy',
+        HARD: 'Medium', 
+        IMPOSSIBLE: 'Hard'
+      };
+      const difficultyName = difficultyMap[game.aiDifficulty] || 'Unknown';
+      return isAIThinking ? `AI is thinking... (${difficultyName})` : `AI's turn (${difficultyName})`;
     }
-  };
+  } else {
+    return `${game?.currentPlayer}'s turn`;
+  }
+};
 
   const isBoardDisabled = () => {
     return isAIThinking || (game?.gameType === 'HUMAN_VS_AI' && aiTurnData?.isAITurn);
@@ -432,11 +438,18 @@ const ChessBoard = ({ game, gameId, onMoveComplete }) => {
         <div className="current-player">
           {getCurrentPlayerDisplay()}
         </div>
-        {game.gameType === 'HUMAN_VS_AI' && (
-          <div className="game-type-info">
-            Playing against AI ({game.aiDifficulty?.toLowerCase()})
-          </div>
-        )}
+{game.gameType === 'HUMAN_VS_AI' && (
+  <div className="game-type-info">
+    Playing against AI ({(() => {
+      const difficultyMap = {
+        NORMAL: 'Easy',
+        HARD: 'Medium',
+        IMPOSSIBLE: 'Hard'
+      };
+      return difficultyMap[game.aiDifficulty] || 'Unknown';
+    })()})
+  </div>
+)}
       </div>
 
       {moveError && (
